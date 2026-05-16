@@ -1,28 +1,87 @@
-<td>
-<img src="HackathonsBanner.jpg">
-</td>
+# FitSense AI — Intelligent Fitness Tracker 🏃‍♂️💨
 
-# Create Your Own Fitness Tracker with MATLAB Online and MATLAB Mobile
-This repository contains code and instructions to help you create your own fitness tracker with MATLAB Online and MATLAB Mobile for a Hackathon! 
+**FitSense AI** is an end-to-end, AI-powered fitness tracking pipeline built entirely in MATLAB. It leverages smartphone sensor data (via MATLAB Mobile) to classify physical activities using deep learning, estimate calories, count steps, and visualize workout performance through a premium App Designer dashboard.
 
-Click here to open the code and repository in MATLAB Online:
+This project was built for the **BEST Istanbul Yıldız Hackathon** (MathWorks track).
 
-[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=mathworks/matlab-mobile-fitness-tracker&file=ExampleModel.mlx)
+---
 
-### Instructions.pdf
-This is the guide with detailed steps to help your team use MATLAB Mobile and MATLAB Online to create your fitness tracker. We have also included a simple example that you can use to start with or draw inspiration from as you create your own solution to this challenge!
+## 🚀 Features
 
-### GradingRubric.pdf
-This document provides the grading rubric that judges will be using for the challenge. 
+*   **Advanced Signal Processing**: 4th-order Butterworth bandpass filtering and zero-phase distortion (`filtfilt`) to remove gravity and electronic noise.
+*   **Deep Learning Classifier**: A Bidirectional LSTM (BiLSTM) network that captures the temporal rhythm of human movement, achieving high accuracy across 6 activities.
+*   **Classic ML Baseline**: Comparative analysis against SVM, KNN, Decision Trees, and Random Forest.
+*   **Workout DNA Fingerprint**: A custom polar radar chart visualization that creates a unique "visual fingerprint" for every workout.
+*   **Premium Dashboard**: A dark-themed, tabbed App Designer GUI for interactive data analysis.
 
-### ExampleModel.mlx 
-This is a MATLAB Live Script that compiles the workflows shown in the instructions document into a code example. It shows how to process data acquired from a MATLAB Mobile session in order to make meaningful conclusions, and can be edited and executed in MATLAB or MATLAB Online. In order to run this Live Script, make sure ExampleData.mat, ActivityLogs.mat, and timeElapsed.m are in the same folder. 
+---
 
-### ExampleData.mat 
-This is a MATLAB data file containing a set of sensor data previously acquired using the workflow demonstrated in the “Collecting Data” section of the 'Instructions' document.
+## 📂 Repository Structure
 
-### ActivityLogs.mat
-This is a MATLAB data file containing a set of sensor data previously acquired using the workflow demonstrated in the “Collecting Data” section of the 'Instructions' document.
+To keep the repository clean and professional, we have organized the files as follows:
 
-### timeElapsed.m 
-This is a helper MATLAB function used in the example model to transform an array containing the date and time of the data points collected to an array of the time elapsed since the acquisition was started
+```text
+├── FitSenseApp.m              # Main App Designer GUI Application
+├── RunEverything.m            # Master script to train models & run analysis
+├── FitSenseAI_Main.m          # Core pipeline script (alternative to RunEverything)
+├── generateExtraPlots.m       # Utility to generate presentation plots
+│
+├── [Helper Functions]
+├── preprocessSensorData.m     # Signal processing and filtering
+├── trainLSTMClassifier.m      # BiLSTM training logic
+├── trainClassicML.m           # Traditional ML model training
+├── detectSteps.m              # Peak detection for step counting
+├── calculateCalories.m        # MET-based calorie estimation
+├── createWorkoutDNA.m         # Radar chart generation
+├── plotFitnessDashboard.m     # 6-panel static visualization
+├── plotModelComparison.m      # Accuracy comparison bar chart
+├── haversine.m                # GPS distance calculation
+├── extractFeatures.m          # Time/Frequency domain feature extraction
+│
+├── [Data & Assets]
+├── *.mat                      # Your collected sensor data files
+├── presentation.html          # Interactive HTML presentation deck
+└── *.png                      # Presentation screenshots and visuals
+```
+
+---
+
+## 🛠️ Installation & Requirements
+
+To run this project locally, you need **MATLAB (R2023a or newer)** with the following toolboxes installed:
+
+1.  **Deep Learning Toolbox**
+2.  **Statistics and Machine Learning Toolbox**
+3.  **Signal Processing Toolbox**
+
+---
+
+## 🏁 How to Run
+
+### 1. Run the Full Pipeline
+Open MATLAB, navigate to this folder, and run:
+```matlab
+RunEverything
+```
+This will load the data, train the models, compare accuracies, and pop up the dashboard and Workout DNA plots.
+
+### 2. Run the Interactive Dashboard
+To launch the App Designer UI directly:
+```matlab
+FitSenseApp
+```
+Click **Load Data** to select a `.mat` file, and **Run Analysis** to see the AI in action!
+
+### 3. View the Presentation
+Open `presentation.html` in any web browser to view the project pitch deck. Use the left/right arrow keys to navigate.
+
+---
+
+## 📊 Results
+
+*   **LSTM Accuracy**: ~95.7%
+*   **Best Classic Model**: Random Forest (~94.4%)
+*   **Activities Classified**: Sitting, Walking, Fast Walking, Jogging, Running, Stairs.
+
+---
+*Built with ❤️ by NighQuest.*

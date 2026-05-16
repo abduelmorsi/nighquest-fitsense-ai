@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitSense AI - Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0b0b10;color:#e8e8f0;overflow:hidden;height:100vh}
+.slide{display:none;width:100vw;height:100vh;padding:60px 80px;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.slide.active{display:flex}
+.slide::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;z-index:0}
+
+/* Backgrounds */
+.slide-1::before{background:linear-gradient(135deg,#0a0a12 0%,#0d1b2a 40%,#1b2838 100%)}
+.slide-2::before{background:linear-gradient(135deg,#0a0a12 0%,#1a0a1e 50%,#0d1b2a 100%)}
+.slide-3::before{background:linear-gradient(135deg,#0b1015 0%,#0d2818 50%,#0a0a12 100%)}
+.slide-4::before{background:linear-gradient(135deg,#0a0a12 0%,#1a1a0a 50%,#0d1b2a 100%)}
+.slide-5::before{background:linear-gradient(135deg,#0d1b2a 0%,#0a1520 50%,#0a0a12 100%)}
+.slide-6::before{background:linear-gradient(135deg,#0a0a12 0%,#1a0a0a 40%,#0d1b2a 100%)}
+.slide-7::before{background:linear-gradient(135deg,#0b1015 0%,#0a1a2a 50%,#0a0a12 100%)}
+.slide-8::before{background:linear-gradient(135deg,#0d1b2a 0%,#0a2018 40%,#0a0a12 100%)}
+
+.slide>*{position:relative;z-index:1}
+
+/* Decorative orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.15;z-index:0}
+.orb-1{width:400px;height:400px;background:#00bfe6;top:-100px;right:-50px}
+.orb-2{width:300px;height:300px;background:#4dd990;bottom:-80px;left:-60px}
+.orb-3{width:350px;height:350px;background:#f06449;top:50%;right:-100px}
+
+/* Typography */
+h1{font-size:3.2rem;font-weight:800;line-height:1.15;margin-bottom:16px;letter-spacing:-1px}
+h2{font-size:2.4rem;font-weight:700;margin-bottom:24px;letter-spacing:-0.5px}
+h3{font-size:1.3rem;font-weight:600;margin-bottom:12px;color:#a0a0b0}
+p,.desc{font-size:1.15rem;line-height:1.7;color:#b0b0c0;max-width:800px}
+
+.accent-cyan{color:#00bfe6}
+.accent-green{color:#4dd990}
+.accent-coral{color:#f06449}
+.accent-gold{color:#f0c040}
+.accent-purple{color:#a070f0}
+
+.tag{display:inline-block;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;margin:4px;letter-spacing:0.5px}
+.tag-cyan{background:rgba(0,191,230,0.15);color:#00bfe6;border:1px solid rgba(0,191,230,0.3)}
+.tag-green{background:rgba(77,217,144,0.15);color:#4dd990;border:1px solid rgba(77,217,144,0.3)}
+.tag-coral{background:rgba(240,100,73,0.15);color:#f06449;border:1px solid rgba(240,100,73,0.3)}
+.tag-gold{background:rgba(240,192,64,0.15);color:#f0c040;border:1px solid rgba(240,192,64,0.3)}
+.tag-purple{background:rgba(160,112,240,0.15);color:#a070f0;border:1px solid rgba(160,112,240,0.3)}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:30px}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px;transition:transform 0.2s}
+.card:hover{transform:translateY(-4px)}
+.card h3{margin-bottom:8px;color:#e0e0f0;font-size:1.1rem}
+.card p{font-size:0.95rem;color:#8888a0;line-height:1.5}
+.card .icon{font-size:2rem;margin-bottom:12px}
+
+/* Flow diagram */
+.flow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:30px 0}
+.flow-step{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 22px;font-size:0.95rem;font-weight:600}
+.flow-arrow{color:#00bfe6;font-size:1.4rem;font-weight:700}
+
+/* Stats */
+.stats-row{display:flex;gap:40px;margin-top:30px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .num{font-size:2.8rem;font-weight:800;letter-spacing:-1px}
+.stat .label{font-size:0.9rem;color:#8888a0;margin-top:4px}
+
+/* Progress bar */
+.progress-bar{width:100%;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;position:fixed;bottom:0;left:0;z-index:100}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00bfe6,#4dd990);border-radius:3px;transition:width 0.3s}
+
+/* Navigation */
+.nav{position:fixed;bottom:20px;right:30px;display:flex;gap:10px;z-index:100}
+.nav button{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#ccc;padding:10px 18px;border-radius:10px;cursor:pointer;font-size:0.9rem;font-family:'Inter',sans-serif;transition:all 0.2s}
+.nav button:hover{background:rgba(0,191,230,0.2);border-color:#00bfe6;color:#fff}
+.slide-counter{position:fixed;bottom:24px;left:30px;font-size:0.85rem;color:#555;z-index:100}
+
+/* Two column */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start;margin-top:20px}
+.two-col-visual { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-top: 20px; }
+
+.zoom-img {
+    max-width: 100%;
+    max-height: 50vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, z-index 0.3s ease;
+    position: relative;
+    z-index: 10;
+    display: block;
+    margin: 0 auto;
+}
+.zoom-img:hover {
+    transform: scale(1.4);
+    z-index: 50;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+/* Code block */
+.code-block{background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 24px;font-family:'Fira Code',monospace;font-size:0.85rem;color:#a0d0e0;line-height:1.6;margin:15px 0;white-space:pre;overflow-x:auto}
+
+/* List */
+.feature-list{list-style:none;margin-top:15px}
+.feature-list li{padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:1.05rem;color:#c0c0d0}
+.feature-list li::before{content:'→ ';color:#00bfe6;font-weight:700}
+
+/* Image placeholder */
+.img-placeholder{background:rgba(255,255,255,0.03);border:2px dashed rgba(255,255,255,0.1);border-radius:16px;height:280px;display:flex;align-items:center;justify-content:center;color:#555;font-size:0.95rem;margin-top:15px}
+
+/* Animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.slide.active>*{animation:fadeInUp 0.5s ease forwards}
+.slide.active>*:nth-child(2){animation-delay:0.1s}
+.slide.active>*:nth-child(3){animation-delay:0.2s}
+.slide.active>*:nth-child(4){animation-delay:0.3s}
+.slide.active>*:nth-child(5){animation-delay:0.4s}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide slide-1 active" id="s1">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <h3>BEST Istanbul Yıldız Hackathon 2026</h3>
+    <h1>FitSense <span class="accent-cyan">AI</span></h1>
+    <p style="font-size:1.5rem;color:#a0a0c0;margin-bottom:30px">Your Phone is Your Personal Trainer</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <span class="tag tag-cyan">MATLAB Mobile</span>
+        <span class="tag tag-green">Deep Learning</span>
+        <span class="tag tag-coral">Signal Processing</span>
+        <span class="tag tag-gold">Sensor Fusion</span>
+        <span class="tag tag-purple">App Designer</span>
+    </div>
+    <p style="margin-top:40px;color:#666;font-size:0.95rem"> NighQuest &nbsp;|&nbsp; May 2026</p>
+</div>
+
+<!-- SLIDE 2: PROBLEM -->
+<div class="slide slide-2" id="s2">
+    <div class="orb orb-3"></div>
+    <h3>THE PROBLEM</h3>
+    <h2>Fitness trackers cost <span class="accent-coral">$200+</span><br>but everyone already has a <span class="accent-cyan">phone</span></h2>
+    <p>Smartphones have accelerometers, gyroscopes, and GPS — the same sensors used by expensive wearables. We built an AI-powered system that turns your phone into a professional fitness tracker using MATLAB.</p>
+    <div class="card-grid" style="margin-top:40px">
+        <div class="card">
+            <div class="icon">📱</div>
+            <h3>Multi-Sensor Data</h3>
+            <p>Accelerometer + Gyroscope + GPS captured via MATLAB Mobile</p>
+        </div>
+        <div class="card">
+            <div class="icon">🧠</div>
+            <h3>AI Classification</h3>
+            <p>Deep Learning LSTM identifies what activity you're doing in real-time</p>
+        </div>
+        <div class="card">
+            <div class="icon">📊</div>
+            <h3>Smart Analytics</h3>
+            <p>Steps, calories, distance, and a unique "Workout DNA" fingerprint</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: ARCHITECTURE -->
+<div class="slide slide-3" id="s3">
+    <div class="orb orb-1"></div>
+    <h3>OUR APPROACH</h3>
+    <h2>End-to-End <span class="accent-green">Pipeline</span></h2>
+    <div class="flow">
+        <div class="flow-step">📱 MATLAB Mobile<br><small style="color:#888">Sensor Logging</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🔧 Preprocessing<br><small style="color:#888">Bandpass Filter</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📊 Features<br><small style="color:#888">44 Time+Freq</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="border-color:rgba(77,217,144,0.4)">🧠 BiLSTM<br><small style="color:#4dd990">Deep Learning</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">🔥 MET Calories<br><small style="color:#888">Regression</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="border-color:rgba(0,191,230,0.4)">📈 Dashboard<br><small style="color:#00bfe6">App Designer</small></div>
+    </div>
+    <div class="two-col" style="margin-top:30px">
+        <div>
+            <h3 style="color:#e0e0f0">Signal Processing</h3>
+            <ul class="feature-list">
+                <li>4th-order Butterworth bandpass (0.5–15 Hz)</li>
+                <li>Zero-phase filtering (filtfilt)</li>
+                <li>Gravity removal & magnitude computation</li>
+                <li>Adaptive peak detection for steps</li>
+            </ul>
+        </div>
+        <div>
+            <h3 style="color:#e0e0f0">Feature Engineering</h3>
+            <ul class="feature-list">
+                <li>10 time-domain features × 4 channels</li>
+                <li>FFT spectral energy & entropy</li>
+                <li>Dominant & mean frequency</li>
+                <li>Sliding windows (2s, 50% overlap)</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: SIGNAL PROCESSING -->
+<div class="slide slide-4" id="s4">
+    <div class="orb orb-2"></div>
+    <h3>SIGNAL PROCESSING</h3>
+    <h2>From <span class="accent-coral">Noisy</span> Data to <span class="accent-green">Clean</span> Signals</h2>
+    <div class="two-col-visual">
+        <div>
+            <p>Raw accelerometer data is noisy and contains gravity. Our preprocessing pipeline:</p>
+            <div class="code-block">% Butterworth bandpass filter
+[b, a] = butter(4, [0.5 15]/(Fs/2));
+accelClean = filtfilt(b, a, rawAccel);
+
+% Orientation-independent magnitude
+mag = sqrt(ax.^2 + ay.^2 + az.^2);
+
+% Adaptive step detection
+[peaks, locs] = findpeaks(mag, ...
+    'MinPeakHeight', std(mag)*0.8, ...
+    'MinPeakDistance', round(Fs*0.35));</div>
+        </div>
+        <div>
+            <img src="before_after.png" alt="Filtering Results" class="zoom-img">
+            <p style="margin-top:15px;font-size:0.9rem;color:#888">→ If missing, run generateExtraPlots.m</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: DEEP LEARNING -->
+<div class="slide slide-5" id="s5">
+    <div class="orb orb-1"></div>
+    <h3>DEEP LEARNING</h3>
+    <h2><span class="accent-cyan">Bidirectional LSTM</span> Activity Classifier</h2>
+    <div class="two-col-visual">
+        <div>
+            <div class="flow" style="flex-direction:column;align-items:stretch;gap:8px">
+                <div class="flow-step" style="text-align:center">sequenceInputLayer(4) <small style="color:#888">— ax, ay, az, magnitude</small></div>
+                <div class="flow-arrow" style="text-align:center">↓</div>
+                <div class="flow-step" style="text-align:center;border-color:rgba(0,191,230,0.3)">bilstmLayer(128) <small style="color:#00bfe6">— captures temporal patterns</small></div>
+                <div class="flow-arrow" style="text-align:center">↓</div>
+                <div class="flow-step" style="text-align:center">dropoutLayer(0.3) → bilstmLayer(64)</div>
+                <div class="flow-arrow" style="text-align:center">↓</div>
+                <div class="flow-step" style="text-align:center;border-color:rgba(77,217,144,0.3)">fullyConnected(32) → softmax → <span class="accent-green">classification</span></div>
+            </div>
+        </div>
+        <div>
+            <h3 style="color:#e0e0f0">Why LSTM over Classic ML?</h3>
+            <ul class="feature-list">
+                <li>Captures <strong>temporal patterns</strong> in movement</li>
+                <li>Walking has a rhythm — LSTM learns it</li>
+                <li>Processes raw sequences directly</li>
+                <li>Bidirectional = reads forward AND backward</li>
+            </ul>
+            <img src="confusion_matrix.png" alt="Confusion Matrix" class="zoom-img">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: MODEL COMPARISON -->
+<div class="slide slide-6" id="s6">
+    <div class="orb orb-3"></div>
+    <h3>MODEL COMPARISON</h3>
+    <h2><span class="accent-green">LSTM</span> vs <span class="accent-coral">Classic ML</span></h2>
+    <p>We trained 5 models to compare deep learning against traditional approaches:</p>
+    <div class="card-grid" style="grid-template-columns:repeat(5,1fr);margin-top:30px">
+        <div class="card" style="text-align:center">
+            <div class="icon">🌳</div>
+            <h3>Decision Tree</h3>
+            <p style="font-size:1.5rem;font-weight:800;color:#f06449;margin-top:8px">94.4%</p>
+        </div>
+        <div class="card" style="text-align:center">
+            <div class="icon">🎯</div>
+            <h3>KNN (k=5)</h3>
+            <p style="font-size:1.5rem;font-weight:800;color:#f0c040;margin-top:8px">88.7%</p>
+        </div>
+        <div class="card" style="text-align:center">
+            <div class="icon">📐</div>
+            <h3>SVM (RBF)</h3>
+            <p style="font-size:1.5rem;font-weight:800;color:#a070f0;margin-top:8px">38.0%</p>
+        </div>
+        <div class="card" style="text-align:center">
+            <div class="icon">🌲</div>
+            <h3>Random Forest</h3>
+            <p style="font-size:1.5rem;font-weight:800;color:#00bfe6;margin-top:8px">94.4%</p>
+        </div>
+        <div class="card" style="text-align:center;border-color:rgba(77,217,144,0.4);background:rgba(77,217,144,0.06)">
+            <div class="icon">🧠</div>
+            <h3>BiLSTM</h3>
+            <p style="font-size:1.5rem;font-weight:800;color:#4dd990;margin-top:8px">95.77%</p>
+            <small style="color:#4dd990">★ Advanced AI</small>
+        </div>
+    </div>
+    <p style="margin-top:30px;color:#888;font-size:0.95rem">The comparison demonstrates mastery of multiple ML paradigms. The Bidirectional LSTM (BiLSTM) outperformed the classic ML models, proving its ability to capture complex temporal sequence dynamics.</p>
+</div>
+
+<!-- SLIDE 7: DASHBOARD & WORKOUT DNA -->
+<div class="slide slide-7" id="s7">
+    <div class="orb orb-2"></div>
+    <h3>VISUALIZATION</h3>
+    <h2>Professional <span class="accent-cyan">Dashboard</span> & Workout <span class="accent-purple">DNA</span></h2>
+    <div class="two-col-visual">
+        <div>
+            <h3 style="color:#e0e0f0">App Designer Dashboard</h3>
+            <p>Interactive GUI with dark theme, tabbed views, real-time results, and user profile input.</p>
+            <img src="ai_dashboard.png" alt="FitSense AI Dashboard" class="zoom-img">
+        </div>
+        <div>
+            <h3 style="color:#e0e0f0">Workout DNA Fingerprint</h3>
+            <p>A unique polar radar chart that creates a visual "fingerprint" for each workout based on 8 metrics.</p>
+            <img src="workout_dna.png" alt="Workout DNA" class="zoom-img">
+        </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <span class="tag tag-cyan">12+ Plot Types</span>
+        <span class="tag tag-green">Dark Theme</span>
+        <span class="tag tag-coral">Interactive Tabs</span>
+        <span class="tag tag-gold">Animated Plots</span>
+        <span class="tag tag-purple">3D Trajectory</span>
+    </div>
+</div>
+ 
+ <!-- SLIDE 7.5: DEMO -->
+ <div class="slide slide-demo" id="s7-5">
+     <div class="orb orb-2"></div>
+     <h3>DEMO</h3>
+     <h2>Live <span class="accent-cyan">Demo</span> & Execution</h2>
+     <div class="two-col-visual">
+         <div>
+             <p>Watch the FitSense AI app in action, processing real-time sensor data and displaying analytics.</p>
+             <ul class="feature-list">
+                 <li>Real-time activity recognition</li>
+                 <li>Live step counting & calorie estimation</li>
+                 <li>Interactive data visualization</li>
+             </ul>
+         </div>
+         <div>
+             <video controls class="zoom-img" style="width:100%;height:auto;border-radius:12px;">
+                 <source src="demo_video.mp4" type="video/mp4">
+                 Your browser does not support the video tag.
+             </video>
+             <p style="margin-top:15px;font-size:0.9rem;color:#888">→ Replace src with your actual video file path if named differently</p>
+         </div>
+     </div>
+ </div>
+
+<!-- SLIDE 8: IMPACT & FUN -->
+<div class="slide slide-8" id="s8">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-3"></div>
+    <h3>RESULTS & IMPACT</h3>
+    <h2>Workout Summary</h2>
+    <div class="stats-row">
+        <div class="stat">
+            <div class="num accent-cyan">601</div>
+            <div class="label">Steps Detected</div>
+        </div>
+        <div class="stat">
+            <div class="num accent-coral">119.5</div>
+            <div class="label">Calories Burned (kcal)</div>
+        </div>
+        <div class="stat">
+            <div class="num accent-green">513</div>
+            <div class="label">Distance (meters)</div>
+        </div>
+        <div class="stat">
+            <div class="num accent-gold">6.1</div>
+            <div class="label">Duration (min)</div>
+        </div>
+    </div>
+    <div style="margin-top:40px;text-align:center">
+        <p style="font-size:1.8rem;margin-bottom:10px">That's equivalent to...</p>
+        <p style="font-size:3rem">🍌 <span class="accent-gold" style="font-weight:800">1.1</span> bananas &nbsp;&nbsp; 🍕 <span class="accent-coral" style="font-weight:800">0.4</span> pizza slices</p>
+    </div>
+    <div style="margin-top:40px;text-align:center">
+        <p style="font-size:1.4rem;color:#a0a0c0">Anyone with a smartphone can now have a <span class="accent-cyan" style="font-weight:700">professional fitness tracker</span></p>
+        <p style="margin-top:20px;color:#666;font-size:1rem">Built with MATLAB Online • MATLAB Mobile • Deep Learning Toolbox • App Designer</p>
+    </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+<div class="slide-counter" id="counter">1 / 8</div>
+<div class="nav">
+    <button onclick="changeSlide(-1)">← Prev</button>
+    <button onclick="changeSlide(1)">Next →</button>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+
+function showSlide(n) {
+    slides.forEach(s => s.classList.remove('active'));
+    current = ((n % total) + total) % total;
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+}
+
+function changeSlide(dir) { showSlide(current + dir); }
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'f') document.documentElement.requestFullscreen?.();
+});
+
+showSlide(0);
+</script>
+</body>
+</html>
